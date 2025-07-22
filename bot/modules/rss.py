@@ -156,7 +156,7 @@ async def rss_sub(_, message, pre_event):
                 f"\nName: <code>{last_title.replace('>', '').replace('<', '')}</code>"
             )
             try:
-                last_link = rss_d.entries[0]["links"][1]["href"]
+                last_link = rss_d.entries[0].get("link") or rss_d.entries[0]["links"][0]["href"]
             except IndexError:
                 last_link = rss_d.entries[0]["link"]
             msg += f"\n<b>Link: </b><code>{last_link}</code>"
@@ -703,7 +703,7 @@ async def rss_monitor():
                         continue
                 rss_d = feed_parse(html)
                 try:
-                    last_link = rss_d.entries[0]["links"][1]["href"]
+                    last_link = rss_d.entries[0].get("link") or rss_d.entries[0]["links"][0]["href"]
                 except IndexError:
                     last_link = rss_d.entries[0]["link"]
                 finally:
@@ -720,7 +720,7 @@ async def rss_monitor():
                     try:
                         item_title = rss_d.entries[feed_count]["title"]
                         try:
-                            url = rss_d.entries[feed_count]["links"][1]["href"]
+                            url = rss_d.entries[feed_count].get("link") or rss_d.entries[feed_count]["links"][0]["href"]
                         except IndexError:
                             url = rss_d.entries[feed_count]["link"]
                         if data["last_feed"] == url or data["last_title"] == item_title:
