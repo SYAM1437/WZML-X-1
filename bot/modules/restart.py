@@ -121,7 +121,7 @@ async def confirm_restart(_, query):
     await delete_message(message)
     if data[1] == "confirm":
         intervals["stopAll"] = True
-        restart_message = await send_message(reply_to, "<i>Restarting...</i>")
+        restart_message = await TgClient.bot.send_message(     chat_id=reply_to.chat.id,     text="<i>Restarting...</i>",     reply_to_message_id=reply_to.id )
         await delete_message(message)
         await TgClient.stop()
         if scheduler.running:
